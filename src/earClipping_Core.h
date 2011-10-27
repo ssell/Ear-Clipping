@@ -59,7 +59,7 @@ namespace EarClipping
             6. Remove child Polygon from container
             7. If there exists another child, repeat from step [2]
     **/
-    Polygon* mergePolygon( Polygon &poly );
+    void mergePolygon( Polygon &poly );
 
     //--------------------------------------------------------------------------------------
     // Polygon Triangulation

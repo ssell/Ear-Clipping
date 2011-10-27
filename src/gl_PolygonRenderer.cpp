@@ -217,7 +217,7 @@ bool PolygonRenderer::performMerge( )
 			return true;
 		}
 
-		m_Polygon = *EarClipping::mergePolygon( m_Polygon );
+		EarClipping::mergePolygon( m_Polygon );
 		
 		while( m_Polygon.numChildren( ) != 0 )
 		{

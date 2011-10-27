@@ -313,7 +313,7 @@ namespace EarClipping
 	 * \author ssell
 	 * \brief Merges a Polygon with its children to create one unified Polygon that may be triangulated.
 	 */
-    Polygon* mergePolygon( Polygon &poly )
+    void mergePolygon( Polygon &poly )
     {
         std::vector< Polygon* > children = poly.getChildren( );
 		std::vector< std::pair< int, int > > order = childOrder( children );
@@ -370,7 +370,5 @@ namespace EarClipping
 			poly.insertPoint( connection.second.x, connection.second.y, temp );	// insert stops at the first occurence of a particular
 																					    // point and so no need to fear the wrong one being used.
 		}
-
-        return &poly;
     }
 }
