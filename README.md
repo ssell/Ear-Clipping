@@ -69,9 +69,6 @@ finds the closest mutually-visible point located on the
 outer polygon and creates a new line segment to connect
 the two polygons and merge them together.
 
-The algorithm used is described in detail at:
-    http://www.whatdidthisdo.com/articles/EarClipping
-
 ### Triangulation
 
 recordEars is the triangulation function and it takes any
@@ -80,15 +77,21 @@ ears are then recorded to the specified file using the
 format that follows:
 
     # of ears in file
+    
     X1,Y1:X2,Y2:X3,Y3       // ear one
+    
     ...
 
 Example:
 
     3
+    
     45,315:38,216:248,41
+    
     45,315:248,41:339,186
+    
     45,315:339,186:175,346
+    
 
 These files can either be read in by writing your own
 method or the retrieveEars function can be used. The 
@@ -105,15 +108,21 @@ The following keybindings are used:
 
 `
     Mouse 1     |   Adds a new point to active polygon
+    
     Spacebar    |   If current polygon has minimum of three points
                     then a new polygon is created as a child of
                     the original
+                    
     Backspace   |   Removes the newest point. If the point removed
                     is the final vertex of the active polygon then
                     the previous polygon becomes active
-    Enter       |   Changes the current mode. 
+                    
+    Enter       |   Changes the current mode
+    
                     CREATION :      add/remove points
+                    
                     MERGE    :      if children exist, merge them
+                    
                     COMPLETE :      triangulates and displays ears
 `
 
