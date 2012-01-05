@@ -1,5 +1,7 @@
-#    Overview    #
-##################
+# Triangulation via Ear Clipping
+### by Steven Sell
+
+## Overview 
 
 Source code that correlates with the article located at:
 
@@ -17,16 +19,15 @@ Source code that correlates with the article located at:
 |
 |   iv.  Contact
 
-#    Library    #
-#################
+
+## Library
 
 The files beginning with earClipping_* compose a stand-alone
 library that can triangulate any simple polygon passed to it.
 The only requirements are that the data points are provided
 in the appropriate Polygon structure.
 
-    |    Structures    |
-    --------------------
+### Structures
 
 There are two structures in the library: points and polygons.
 
@@ -55,8 +56,7 @@ counter-clockwise order. This is the orientatePolygon
 function and it puts the points in the correct order
 for not only the parent but for all children as well.
 
-    |    Merger    |
-    ----------------
+### Merger
 
 Any polygon that has holes must be passed into the
 mergePolygon method. In brief the function orders the
@@ -68,8 +68,7 @@ the two polygons and merge them together.
 The algorithm used is described in detail at:
     http://www.whatdidthisdo.com/articles/EarClipping
 
-    |    Triangulation    |
-    -----------------------
+### Triangulation
 
 recordEars is the triangulation function and it takes any
 passed Polygon and discovers the ears that form it. These
@@ -92,8 +91,7 @@ method or the retrieveEars function can be used. The
 points are stored in X,Y order in a std::vector and 
 every three pairs (or 6 total) comprise a single ear.
 
-#    Demo Application    #
-##########################
+## Demo Application
 
 A simple demo is included and is composed of the main.cpp
 file and all files starting with gl_*. A simple 'renderer'
@@ -101,6 +99,7 @@ is employed, and the GLFW library is used for rapid-prototyping.
 
 The following keybindings are used:
 
+`
     Mouse 1     |   Adds a new point to active polygon
     Spacebar    |   If current polygon has minimum of three points
                     then a new polygon is created as a child of
@@ -112,25 +111,24 @@ The following keybindings are used:
                     CREATION :      add/remove points
                     MERGE    :      if children exist, merge them
                     COMPLETE :      triangulates and displays ears
+`
 
-#    Setup    #
-###############
-
+## Setup
+`
     EarClipping/
 
         src/
         projects/
         glfw-2.7.2/
+`
 
 GLFW is an external library used for input handling and OpenGL
 process creation. It can be found at:
 
     http://www.glfw.org/
 
-#    Contact    #
-#################
+## Contact
 
-    ssell@knights.ucf.edu
-    admin@whatdidthisdo.com
+> ssell@knights.ucf.edu
 
-    http://www.whatdidthisdo.com
+> http://www.ywdac.com
