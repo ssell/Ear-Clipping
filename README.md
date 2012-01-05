@@ -107,6 +107,7 @@ is employed, and the GLFW library is used for rapid-prototyping.
 The following keybindings are used:
 
 `
+
     Mouse 1     |   Adds a new point to active polygon
     
     Spacebar    |   If current polygon has minimum of three points
@@ -124,21 +125,25 @@ The following keybindings are used:
                     MERGE    :      if children exist, merge them
                     
                     COMPLETE :      triangulates and displays ears
+                    
 `
 
 ## Setup
+
 `
+
     EarClipping/
 
         src/
         projects/
         glfw-2.7.2/
+        
 `
 
 GLFW is an external library used for input handling and OpenGL
 process creation. It can be found at:
 
-    http://www.glfw.org/
+> http://www.glfw.org/
 
 ## Contact
 
