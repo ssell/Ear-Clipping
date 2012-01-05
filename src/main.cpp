@@ -1,3 +1,9 @@
+/**
+ *	Ear Clipping Library and Sample Program
+ *		by Steven Sell
+ *		http://www.ywdac.com/
+ */
+
 #include <GL/glfw.h>
 #include <iostream>
 

@@ -101,11 +101,11 @@ namespace EarClipping
         bool removePoint( float x, float y );
 		/// Removes the point at the specified location in the list
 		bool removePoint( unsigned pos );
-		bool removePoint( float aX, float aY, float bX, float bY, float cX, float cY ); //this is a cop-out to simplifiy the triangulation
+		bool removePoint( Point &point ); //this is a cop-out to simplifiy the triangulation
 
         /// Return head point in Polygon
         Point* get( ){ return head; }
-		Polygon* getChild( unsigned pos ){ if( children.size( ) > pos ) return children[ pos ]; else return NULL; }
+		Polygon* getChild( unsigned pos ){ if( children.size( ) > pos && pos != -1 ) return children[ pos ]; else return NULL; }
 		bool removeChild( unsigned pos );
 
         std::vector< Polygon* > getChildren( ){ return children; }

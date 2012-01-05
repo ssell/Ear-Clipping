@@ -65,7 +65,7 @@ namespace EarClipping
     // Polygon Triangulation
 
 	/// Triangulates the polygon and records the Ears in the specified path. Returns false on any critical errors.
-	bool recordEars( Polygon poly, char* path );
+	bool recordEars( Polygon poly, const char* path );
 
 	//--------------------------------------------------------------------------------------
 

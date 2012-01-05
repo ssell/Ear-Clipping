@@ -49,19 +49,50 @@ namespace EarClipping
 	//------------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------------
 
-	bool isConvex( Point a, Point b, Point c )
+	bool isConvex( Point* active )
 	{
+		Point a = *active->previous;
+		Point b = *active;
+		Point c = *active->next;
+
 		// a  = c->next; b = c->previous
 		// testing what side of the diagonal ac that b is on
 		// source: http://www.gamedev.net/topic/542870-determine-which-side-of-a-line-a-point-is/page__view__findpost__p__4500667
-		return ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) > 0;
+		//return ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) > 0;
+
+		// If sign of area is '-', then angle is convex
+		return ( ( a.x * ( c.y - b.y ) ) + ( b.x * ( a.y - c.y ) ) + ( c.x * ( b.y - a.y ) ) ) < 0;
+	}
+
+	//------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------
+
+	/** 
+	 * \brief Check if any other points are inside the prospective ear
+	 */
+	bool isEar( Point* active )
+	{
+		Point* checker = active->next->next;
+
+		// Check every point not part of the ear
+		while( checker != active->previous )
+		{
+			if( inTriangle( *checker, *active, *active->next, *active->previous ) )
+			{
+				return false;
+			}
+
+			checker = checker->next;
+		}
+
+		return true;
 	}
 
 	//------------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------------
 
-	bool verifyEarCount( unsigned count, char* path )
+	bool verifyEarCount( unsigned count, const char* path )
 	{
 		std::ifstream file( path );
 
@@ -87,7 +118,7 @@ namespace EarClipping
 
 	//------------------------------------------------------------------------------------------
 
-	bool recordEars( Polygon poly, char* path )
+	bool recordEars( Polygon poly, const char* path )
 	{
 		std::ofstream file( path );
 
@@ -98,9 +129,7 @@ namespace EarClipping
 
 		bool earFound; // will need to prove this false
 
-		Point* active;
-
-		std::string status = "";
+		Point* active = poly.get( );
 
 		unsigned numPoints = poly.numPoints( ) - 2;
 
@@ -108,65 +137,36 @@ namespace EarClipping
 
 		// if all goes well, there will be n-2 ears (n=number of vertices)
 		// let the user (or retrieveEars) know how many ears to expect
-		file << numPoints << "\n";
+		file << poly.numPoints( ) - 2 << "\n";
 
 		//--------------------------------------------
 
-		active = poly.get( );
-
-		while( active != poly.get( )->previous )
+		while( poly.numPoints( ) >= 3 )
 		{
-			earFound = true; // prove me wrong
+			earFound = true;
 
-			if( active == NULL )
-				break; // this should never happen
-
-			// Is a convex angle formed? If so, then the diagonal will be inside the polygon.
-			// The only exception is if another point of the polygon is within the potential ear.
-			if( isConvex( *active->next, *active->previous, *active ) )
+			if( isConvex( active ) )
 			{
-				Point* checker = active->next->next;
-
-				if( checker == NULL )
-					break; // again should never happen
-
-				// Here comes the part that makes this algorithm O(n^2):
-				// check every point (except active->previous, active, and active->next of course)
-				// to see if they lie within our new ear
-				do
+				if( isEar( active ) )
 				{
-					if( inTriangle( *checker, *active, *active->next, *active->previous ) )
-					{
-						earFound = false; // contains another point
-						break;
-					}
-     
-					checker = checker->next;
-				} while( checker != active->previous );
-			}
-			else
-			{
-				earFound = false; // concave angle
+					// handle ear
+					file << active->previous->x << "," << active->previous->y << ":" << active->x << "," << active->y << ":" << active->next->x << "," << active->next->y << "\n";
+					file.flush( );
+
+					// remove ear tip (active) from the polygon)
+					active = active->next;
+					poly.removePoint( *active->previous );
+
+					continue;
+				}
 			}
 
-			if( earFound )
-			{
-				// hooray! have an ear
-				// record to file
-				file << active->previous->x << "," << active->previous->y << ":" << active->x << "," << active->y << ":" << active->next->x << "," << active->next->y << "\n";
-
-				// remove ear tip (active) from the polygon)
-				if( !poly.removePoint( active->x, active->y, active->next->x, active->next->y, active->previous->x, active->previous->y ) )
-					std::cout << "FAILED" << std::endl;
-
-				active = poly.get( ); 
-			}
-			else
-				active = active->next;
+			active = active->next;
 		}
 
 		file.close( );
 
 		return verifyEarCount( numPoints, path );
 	}
+
 }

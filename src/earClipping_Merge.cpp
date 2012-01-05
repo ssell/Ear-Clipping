@@ -365,7 +365,7 @@ namespace EarClipping
 			{
 				temp = temp->next;
 				poly.insertPoint( temp->x, temp->y, temp->previous );
-			} while( temp->x != connection.first.x && temp->y != connection.first.y );
+			} while( temp->x != connection.first.x || temp->y != connection.first.y );
 
 			poly.insertPoint( connection.second.x, connection.second.y, temp );	// insert stops at the first occurence of a particular
 																					    // point and so no need to fear the wrong one being used.

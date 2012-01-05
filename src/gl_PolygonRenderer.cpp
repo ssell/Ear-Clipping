@@ -67,8 +67,18 @@ bool PolygonRenderer::popPoint( )
 void PolygonRenderer::newChild( )
 {
 	// Dont add a new polygon if active polygon is not a real polygon
-	if( ( m_Polygon.numChildren( ) == 0 && m_Polygon.numPoints( ) >= 3 ) || m_Polygon.getChild( m_ActivePoint )->numPoints( ) >= 3 )
+	if( m_Polygon.numChildren( ) == 0 && m_Polygon.numPoints( ) >= 3 )
 		m_ActivePoint++;
+	else
+	{  
+		EarClipping::Polygon* hold = m_Polygon.getChild( m_ActivePoint );
+
+		if( hold != NULL )
+		{
+			if( hold->numPoints( ) >= 3 )
+				m_ActivePoint++;
+		}
+	}
 }
 
 //------------------------------------------------------------------------------------------

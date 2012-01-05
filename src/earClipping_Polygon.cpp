@@ -243,7 +243,7 @@ namespace EarClipping
         return true;
     }
 
-	bool Polygon::removePoint( float aX, float aY, float bX, float bY, float cX, float cY )
+	bool Polygon::removePoint( Point &point )
 	{
 		if( m_NumberOfPoints == 0 )
             return false;
@@ -252,15 +252,15 @@ namespace EarClipping
 
         do
         {
-			if( find->x == aX           && find->y == aY &&
-				find->next->x == bX     && find->next->y == bY &&
-				find->previous->x == cX && find->previous->y == cY )
+			if( find->x == point.x && find->y == point.y &&
+				find->next->x == point.next->x && find->next->y == point.next->y &&
+				find->previous->x == point.previous->x && find->previous->y == point.previous->y )
 				 break;
 
             find = find->next;
         } while( find != head );
 
-        if( find->x == aX && find->y == aY )
+        if( find->x == point.x && find->y == point.y )
         {
             find->previous->next = find->next;
             find->next->previous = find->previous;
