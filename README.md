@@ -5,19 +5,23 @@
 
 Source code that correlates with the article located at:
 
-    http://www.whatdidthisdo.com/articles/EarClipping
+> http://www.ywdac.com/articles/1
 
-|    i.  Library
-|        a. Structures
-|        b. Merger
-|        c. Triangulation
-|
-|   ii.  Demo Application
-|        a. Controls
-|
-|  iii.  Setup
-|
-|   iv.  Contact
+     i.   Library
+     
+          a. Structures
+          
+          b. Merger
+          
+          c. Triangulation
+ 
+    ii.   Demo Application
+    
+          a. Controls
+ 
+    iii.  Setup
+ 
+    iv.   Contact
 
 
 ## Library
