@@ -79,6 +79,8 @@ namespace EarClipping
 
 				cntr++;
 			}
+			
+			file.close( );
 		}
 
 		return ears;
