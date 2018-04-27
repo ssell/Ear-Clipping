@@ -147,6 +147,6 @@ process creation. It can be found at:
 
 ## Contact
 
-> ssell@knights.ucf.edu
+> ssell@vertexfragment.com
 
-> http://www.ywdac.com
+> http://www.vertexfragment.com
