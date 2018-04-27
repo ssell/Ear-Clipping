@@ -1,5 +1,4 @@
 # Triangulation via Ear Clipping
-### by Steven Sell
 
 ## Overview 
 
