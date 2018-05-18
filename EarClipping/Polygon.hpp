@@ -25,7 +25,7 @@
 #ifndef __H_SSELL_EARCLIPPING_POLYGON_H__
 #define __H_SSELL_EARCLIPPING_POLYGON_H__
 
-#include "vec3.hpp"
+#include "vec2.hpp"
 
 #include <list>
 #include <vector>
@@ -33,6 +33,12 @@
 
 namespace EarClipping
 {
+    enum Winding
+    {
+        Clockwise = 0,
+        CounterClockwise = 1
+    };
+
     /**
      * \class Polygon
      * \brief Container for a list of points comprising a polygon.
@@ -40,13 +46,24 @@ namespace EarClipping
     class Polygon
     {
     public:
+        
+        /**
+         * \param[in] yIsUp True if positive-y is up (ie origin in lower-left), false if down (ie origin in upper-left).
+         */
+        Polygon(bool yIsUp);
 
-        Polygon();
+        /**
+         * Tests whether the polygon contains the specified point.
+         *
+         * \param[in] point Point to test whether it is inside the polygon.
+         * \return True if the specified point lies within the polygon.
+         */
+        bool ContainsPoint(glm::vec2 const& point) const;
 
         /**
          * \return The index of the point from the start of the point list. Returns -1 if the point was not found.
          */
-        int32_t FindPoint(glm::vec3 const& point) const;
+        int32_t FindPoint(glm::vec2 const& point) const;
 
         /**
          * Adds the specified point to the polygon to the end of the point list.
@@ -56,18 +73,51 @@ namespace EarClipping
          * 
          * \param[in] point Point to add to the polygon.
          */
-        void AddPoint(glm::vec3 const& point);
+        void AddPoint(glm::vec2 const& point);
+
+        /**
+         *
+         */
+        std::list<glm::vec2> const& GetPoints() const;
         
         /**
          * Returns the number of points within
          */
         size_t Count() const;
 
+        /**
+         * Calculates whether the points are defined in clockwise or counter-clockwise order.
+         * This is done by calculating the sum of the point edges. In a normal cartesian coordinate
+         * system, a positive result indicates a clockwise winding while a negative result 
+         * is indicative of a counter-clockwise winding.
+         *
+         * \param[in] yIsUp True if positive-y is up (ie origin in lower-left), false if down (ie origin in upper-left).
+         */
+        Winding CalculateWinding() const;
+
+        /**
+         * Orientates the points in the polygon so that they are in counter-clockwise order.
+         * If the points are already counter-clockwise, then no further action is taken.
+         */
+        void OrientatePoints();
+
+        /**
+         *
+         */
+        void AddHole(Polygon hole);
+
     protected:
+
+        void ValidateChild(Polygon& child);
 
     private:
 
-        std::list<glm::vec3> m_Points;
+        bool m_YUp;
+
+        glm::vec2 m_MinPoint;
+        glm::vec2 m_MaxPoint;
+
+        std::list<glm::vec2> m_Points;
     };
 }
 

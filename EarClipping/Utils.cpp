@@ -27,18 +27,11 @@
 
 namespace EarClipping
 {
-    bool Utils::IsConvex(glm::vec3 const& a, glm::vec3 const& b, glm::vec3 const& c)
+    namespace Utils
     {
-        return ((a.x * (c.y - b.y)) + (b.x * (a.y - c.y)) + (c.x * (b.y - a.y))) < 0.0f;
-    }
-
-    void Utils::Validate(Polygon const& polygon)
-    {
-
-    }
-
-    void Utils::Merge(Polygon& parent, Polygon const& child)
-    {
-        Validate(parent); Validate(child);
+        bool IsConvex(glm::vec2 const& a, glm::vec2 const& b, glm::vec2 const& c)
+        {
+            return ((a.x * (c.y - b.y)) + (b.x * (a.y - c.y)) + (c.x * (b.y - a.y))) < 0.0f;
+        }
     }
 }

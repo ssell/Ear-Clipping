@@ -29,18 +29,10 @@
 
 namespace EarClipping
 {
-    class Utils
+    namespace Utils
     {
-    public:
-
-        static bool IsConvex(glm::vec3 const& a, glm::vec3 const& b, glm::vec3 const& c);
-        static void Validate(Polygon const& polygon);
-        static void Merge(Polygon& parent, Polygon const& child);
-        
-    protected:
-
-    private:
-    };
+        extern bool IsConvex(glm::vec3 const& a, glm::vec3 const& b, glm::vec3 const& c);
+    }
 }
 
 #endif

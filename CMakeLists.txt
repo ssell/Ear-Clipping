@@ -24,7 +24,7 @@ else()
     set(COMPILE_LINK_FLAG "-m64")
 endif()
 
-project("EarClipping${PROJECT_SUFFIX}")                                                                 # Name of the parent project/solution
+project("EarClipping${PROJECT_SUFFIX}" LANGUAGES CXX)                                                                 # Name of the parent project/solution
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR})                                                       # Set output directories
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR})
@@ -36,7 +36,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
 
 set(API_PROJECT "EarClipping${PROJECT_SUFFIX}")                                                         # Project specific variables
 set(API_ROOT_PATH "${CMAKE_SOURCE_DIR}/EarClipping")
-set(API_SRC_ROOT_PATH "${API_ROOT_PATH}/src")
+set(API_SRC_ROOT_PATH "${API_ROOT_PATH}")
 
 file(
     GLOB_RECURSE API_SRC_LIST                                                                           # List of sources
@@ -47,8 +47,11 @@ file(
 )
 
 add_library(${API_PROJECT} ${API_SRC_LIST})                                                             # Add the library
+set_target_properties(${API_PROJECT} PROPERTIES LINKER_LANGUAGE CXX) 
 set_target_properties(${API_PROJECT} PROPERTIES DEBUG_POSTFIX "d")                                      # Add a 'd' to debug builds
 set_target_properties(${API_PROJECT} PROPERTIES COMPILE_FLAGS ${COMPILE_LINK_FLAG} LINK_FLAGS ${COMPILE_LINK_FLAG})  
+
+target_include_directories(${API_PROJECT} PUBLIC "${CMAKE_SOURCE_DIR}/submodules/glm/glm")
 
 foreach(_source IN ITEMS ${API_SRC_LIST})                                                               # Add the source files to the project 
     get_filename_component(_source_path "${_source}" PATH)                                              # https://stackoverflow.com/a/33813154/735425
