@@ -109,6 +109,7 @@ namespace EarClipping
     protected:
 
         void ValidateChild(Polygon& child);
+        std::list<glm::vec2>::iterator FindNearestPoint(Polygon& child);
 
     private:
 

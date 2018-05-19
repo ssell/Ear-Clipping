@@ -31,7 +31,10 @@ namespace EarClipping
 {
     namespace Utils
     {
-        extern bool IsConvex(glm::vec3 const& a, glm::vec3 const& b, glm::vec3 const& c);
+        extern bool IsZero(float const x);
+        extern bool LinesIntersect(glm::vec2 const& a0, glm::vec2 const& a1, glm::vec2 const& b0, glm::vec2 const& b1);
+        extern bool LineIntersectsPolygon(Polygon const& polygon, glm::vec2 const& l0, glm::vec2 const& l1);
+        extern bool IsConvex(glm::vec2 const& a, glm::vec2 const& b, glm::vec2 const& c);
     }
 }
 
