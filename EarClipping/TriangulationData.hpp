@@ -22,26 +22,34 @@
  * SOFTWARE.
  */
 
-#ifndef __H_SSELL_EARCLIPPING_TRIANGULATOR_H__
-#define __H_SSELL_EARCLIPPING_TRIANGULATOR_H__
+#ifndef __H_SSELL_EARCLIPPING_TRIANGULATION_DATA_H__
+#define __H_SSELL_EARCLIPPING_TRIANGULATION_DATA_H__
 
-#include "TriangulationData.hpp"
+#include <cstdint>
+#include <vector>
+
+#include "vec2.hpp"
 
 namespace EarClipping
 {
-    class Polygon;
-
-    class Triangulator
+    class TriangulationData
     {
     public:
 
-        Triangulator();
+        TriangulationData(uint32_t numPoints);
 
-        TriangulationData Triangulate(Polygon const& polygon);
+        uint32_t GetIndex(glm::vec2 const& point) const;
+        void AddPoint(glm::vec2 const& point);
+
+        std::vector<uint32_t> const& GetIndices() const;
+        std::vector<glm::vec2> const& GetVertices() const;
 
     protected:
 
     private:
+
+        std::vector<uint32_t> m_Indices;
+        std::vector<glm::vec2> m_Vertices;
     };
 }
 

@@ -88,7 +88,7 @@ namespace EarClipping
                 return glm::all(glm::lessThan(glm::abs(point - other), glm::vec2{std::numeric_limits<float>::epsilon()}));
             });
 
-        return static_cast<int32_t>(std::distance(m_Points.begin(), find));
+        return static_cast<int32_t>(std::distance(std::begin(m_Points), find));
     }
 
     void Polygon::AddPoint(glm::vec2 const& point)

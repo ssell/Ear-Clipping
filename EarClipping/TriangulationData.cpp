@@ -22,8 +22,12 @@
  * SOFTWARE.
  */
 
-#include "Triangulator.hpp"
-#include "Polygon.hpp"
+#include "TriangulationData.hpp"
+#include "gtc/epsilon.hpp"
+
+#include <algorithm>
+#include <stdexcept>
+#include <numeric>
 
 namespace EarClipping
 {
@@ -31,24 +35,61 @@ namespace EarClipping
     // Constructors
     //--------------------------------------------------------------------------------------
     
-    Triangulator::Triangulator()
+    TriangulationData::TriangulationData(uint32_t const numPoints)
     {
+        const auto numEars = numPoints - 2;
 
+        m_Indices.reserve(numEars * 3);         // 3 indices for each ear/triangle
+        m_Vertices.reserve(numPoints);          // One unique vertex for each point
     }
 
     //--------------------------------------------------------------------------------------
     // Public Methods
     //--------------------------------------------------------------------------------------
-    
-    TriangulationData Triangulator::Triangulate(Polygon const& polygon)
+
+    uint32_t TriangulationData::GetIndex(glm::vec2 const& point) const
     {
-        auto data = TriangulationData{polygon.Count()};
+        auto find = std::find_if(std::begin(m_Vertices), std::end(m_Vertices), 
+            [point](glm::vec2 const& other)
+            { 
+                return glm::all(glm::lessThan(glm::abs(point - other), glm::vec2{std::numeric_limits<float>::epsilon()}));
+            });
 
+        if(find == std::end(m_Vertices))
+        {
+            throw std::exception("No index found that matches the specified point");
+        }
 
-
-        return data;
+        // std::distance can return negative integer value, but not when we call it comparing against std::begin
+        return static_cast<uint32_t>(std::distance(std::begin(m_Vertices), find));
     }
 
+    void TriangulationData::AddPoint(glm::vec2 const& point)
+    {
+        auto index = uint32_t{m_Vertices.size()};
+
+        try
+        {
+            index = GetIndex(point);
+        } 
+        catch(std::exception const& e) 
+        {
+            m_Vertices.emplace_back(point);
+        }
+
+        m_Indices.emplace_back(index);
+    }
+
+    std::vector<uint32_t> const& TriangulationData::GetIndices() const
+    {
+        return m_Indices;
+    }
+
+    std::vector<glm::vec2> const& TriangulationData::GetVertices() const
+    {
+        return m_Vertices;
+    }
+    
     //--------------------------------------------------------------------------------------
     // Protected Methods
     //--------------------------------------------------------------------------------------
