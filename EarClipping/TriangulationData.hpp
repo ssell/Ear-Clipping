@@ -39,12 +39,14 @@ namespace EarClipping
         TriangulationData(uint32_t numPoints);
 
         uint32_t GetIndex(glm::vec2 const& point) const;
-        void AddPoint(glm::vec2 const& point);
+        void AddEar(glm::vec2 const& a, glm::vec2 const& b, glm::vec2 const& c);
 
         std::vector<uint32_t> const& GetIndices() const;
         std::vector<glm::vec2> const& GetVertices() const;
 
     protected:
+
+        void AddPoint(glm::vec2 const& point);
 
     private:
 

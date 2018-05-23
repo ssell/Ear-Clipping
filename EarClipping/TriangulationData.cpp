@@ -64,20 +64,11 @@ namespace EarClipping
         return static_cast<uint32_t>(std::distance(std::begin(m_Vertices), find));
     }
 
-    void TriangulationData::AddPoint(glm::vec2 const& point)
+    void TriangulationData::AddEar(glm::vec2 const& a, glm::vec2 const& b, glm::vec2 const& c)
     {
-        auto index = uint32_t{m_Vertices.size()};
-
-        try
-        {
-            index = GetIndex(point);
-        } 
-        catch(std::exception const& e) 
-        {
-            m_Vertices.emplace_back(point);
-        }
-
-        m_Indices.emplace_back(index);
+        AddPoint(a);
+        AddPoint(b);
+        AddPoint(c);
     }
 
     std::vector<uint32_t> const& TriangulationData::GetIndices() const
@@ -93,6 +84,22 @@ namespace EarClipping
     //--------------------------------------------------------------------------------------
     // Protected Methods
     //--------------------------------------------------------------------------------------
+
+    void TriangulationData::AddPoint(glm::vec2 const& point)
+    {
+        auto index = static_cast<uint32_t>(m_Vertices.size());
+
+        try
+        {
+            index = GetIndex(point);
+        } 
+        catch(...) 
+        {
+            m_Vertices.emplace_back(point);
+        }
+
+        m_Indices.emplace_back(index);
+    }
     
     //--------------------------------------------------------------------------------------
     // Private Methods

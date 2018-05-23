@@ -26,6 +26,9 @@
 #define __H_SSELL_EARCLIPPING_TRIANGULATOR_H__
 
 #include "TriangulationData.hpp"
+#include "vec2.hpp"
+
+#include <list>
 
 namespace EarClipping
 {
@@ -42,6 +45,10 @@ namespace EarClipping
     protected:
 
     private:
+
+        static bool FormsInteriorAngle(glm::vec2 const& a, glm::vec2 const& b, glm::vec2 const& c);
+        static bool IsValidEar(std::list<glm::vec2>::iterator const& a, std::list<glm::vec2>::iterator const& b, std::list<glm::vec2>::iterator const& c, std::list<glm::vec2> const& points);
+        static bool InTriangle(glm::vec2 const& a, glm::vec2 const& b, glm::vec2 const&c, float const area, glm::vec2 const& p);
     };
 }
 
